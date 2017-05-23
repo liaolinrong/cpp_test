@@ -26,10 +26,10 @@ void* thread2(void* arg)
 {
         for(int i = 0; i < 10; i++)
         {
-		pthread_mutex_lock(&mutex1);
+		pthread_mutex_lock(&mutex2);
                 printf("thread2 %d\n",i);
 		sleep(1);
-		pthread_mutex_lock(&mutex2);
+		pthread_mutex_lock(&mutex1);
 		printf("thread2 after %d\n",i);
                 sleep(1);
 		pthread_mutex_unlock(&mutex2);
