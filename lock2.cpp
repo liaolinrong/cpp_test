@@ -12,13 +12,13 @@ void* thread1(void* arg)
 	{
 		pthread_mutex_lock(&mutex1);
 		printf("thread1 %d\n",i);
-		sleep(1);
+//		sleep(1);
 		pthread_mutex_lock(&mutex2);
 		printf("thread1 after %d\n",i);
-		sleep(1);
+//		sleep(1);
 		pthread_mutex_unlock(&mutex2);
 		pthread_mutex_unlock(&mutex1);
-		sleep(1);
+//		sleep(1);
 	}
 }
 
@@ -28,13 +28,13 @@ void* thread2(void* arg)
         {
 		pthread_mutex_lock(&mutex1);
                 printf("thread2 %d\n",i);
-		sleep(1);
+//		sleep(1);
 		pthread_mutex_lock(&mutex2);
 		printf("thread2 after %d\n",i);
-                sleep(1);
+  //              sleep(1);
 		pthread_mutex_unlock(&mutex2);
                 pthread_mutex_unlock(&mutex1);
-		sleep(1);
+//		sleep(1);
         }
 }
 
@@ -46,6 +46,9 @@ int main()
 	
 	pthread_create(&t1,NULL,thread1,NULL);
 	pthread_create(&t2,NULL,thread2,NULL);
+
+//	pthread_mutex_destroy(&mutex1);
+//	pthread_mutex_destroy(&mutex2);
 
 	pthread_join(t1,NULL);
 	pthread_join(t2,NULL);
