@@ -47,11 +47,11 @@ int main()
 	pthread_create(&t1,NULL,thread1,NULL);
 	pthread_create(&t2,NULL,thread2,NULL);
 
-//	pthread_mutex_destroy(&mutex1);
-//	pthread_mutex_destroy(&mutex2);
-
 	pthread_join(t1,NULL);
 	pthread_join(t2,NULL);
+
+//	pthread_mutex_destroy(&mutex1);
+//	pthread_mutex_destroy(&mutex2);
 
 	return 0;
 }
