@@ -12,7 +12,7 @@
 
 using namespace std;
 
-#define MAXLINE 5
+#define MAXLINE 100
 #define OPEN_MAX 100
 #define LISTENQ 20
 // #define SERV_PORT 5000
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
 
                 if ((sockfd = events[i].data.fd) < 0)
                     continue;
-                if ((n = read(sockfd, line, MAXLINE)) < 0)
+                if ((n = read(sockfd, line, MAXLINE-1)) < 0)
                 {
                     if (errno == ECONNRESET)
                     {
@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
                     events[i].data.fd = -1;
                 }
 
-                line[n-1] = '\0';
+                line[n] = '\0';
                 cout << "read " << line << endl;
 
                 ev.data.fd = sockfd;
