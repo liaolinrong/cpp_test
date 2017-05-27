@@ -103,10 +103,15 @@ int main(int argc, char* argv[])
                 char* str = inet_ntoa(clientaddr.sin_addr);
                 cout << "accept a connection from " << str << endl;
 
+                setnonblocking(connfd);
                 ev.data.fd = connfd;
                 ev.events = EPOLLIN|EPOLLET;
 
-                epoll_ctl(epfd, EPOLL_CTL_ADD, connfd, &ev);
+                if (epoll_ctl(epfd, EPOLL_CTL_ADD, connfd, &ev) == -1)
+                {
+                    perror("epoll_ctl: connfd");
+                    exit(-1);
+                }
             }
             else if (events[i].events & EPOLLIN)
             {
@@ -117,7 +122,7 @@ int main(int argc, char* argv[])
 
                 n = read(sockfd, line, MAXLINE-1);
                 printf("read return: %d, errno: %d\n", n, errno);
-                printf("ECONNRESET: %d\n", ECONNRESET);
+                //printf("ECONNRESET: %d\n", ECONNRESET);
                 if (n < 0)
                 {
                     if (errno == ECONNRESET)
@@ -148,18 +153,34 @@ int main(int argc, char* argv[])
                     ev.data.fd = sockfd;
                     ev.events = EPOLLOUT | EPOLLET;
 
-                    epoll_ctl(epfd, EPOLL_CTL_MOD, sockfd, &ev);
+                    if (epoll_ctl(epfd, EPOLL_CTL_MOD, sockfd, &ev) == -1)
+                    {
+                        perror("epoll_ctl: sockfd");
+                        exit(-1);
+                    }
                 }
             }
             else if (events[i].events & EPOLLOUT)
             {
                 sockfd = events[i].data.fd;
-                write(sockfd, line, n);
+                if (write(sockfd, line, n) == -1)
+                {
+                    if (epoll_ctl(epfd, EPOLL_CTL_DEL, sockfd, &events[i]) == -1) {
+                        perror("epoll_ctl: EPOLL_CTL_DEL");
+                    }
 
-                ev.data.fd = sockfd;
-                ev.events=EPOLLIN|EPOLLET;
+                    close(sockfd);
+                    events[i].data.fd = -1;
+                }else {
+                    ev.data.fd = sockfd;
+                    ev.events=EPOLLIN|EPOLLET;
 
-                epoll_ctl(epfd, EPOLL_CTL_MOD, sockfd, &ev);
+                    if (epoll_ctl(epfd, EPOLL_CTL_MOD, sockfd, &ev) == -1)
+                    {
+                        perror("epoll_ctl: sockfd");
+                        exit(-1);
+                    }
+                }
             }
         }
     }
