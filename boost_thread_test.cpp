@@ -1,3 +1,4 @@
+//g++ boost_thread_test.cpp -lboost_system -lboost_threaad
 #include <boost/thread.hpp>
 #include <iostream>
 
