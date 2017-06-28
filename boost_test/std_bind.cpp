@@ -40,5 +40,10 @@ int main(){
 
     fp f1 = fp(&A::A_fun_static);
     f1();
+
+    A().init();
+    A().init2();
+
+    return 0;
 }
 
