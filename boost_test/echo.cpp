@@ -35,7 +35,7 @@ private:
             [this, self](const boost::system::error_code &ec, size_t)
             {
                 if (!ec)
-                    async_read()
+                    async_read();
             }
         );
     }
@@ -56,7 +56,7 @@ public:
 private:
     void async_accept()
     {
-        acceptor_.async_accept(socket_, std::bind(&server.handle_accept, this, std::placeholders:_1));
+        acceptor_.async_accept(socket_, std::bind(&server::handle_accept, this, std::placeholders::_1));
     }
 
     void handle_accept(const boost::system::error_code &ec)
@@ -72,7 +72,7 @@ private:
 
     tcp::acceptor acceptor_;
     tcp::socket socket_;
-}
+};
 
 int main(int argc, char *argv[])
 {
