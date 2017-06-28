@@ -24,7 +24,7 @@ public:
 
     void init(){
         fp fp1 = std::bind(&A::A_fun, this);
-        fp1;
+        fp1();
     }
 
     void init2(){
