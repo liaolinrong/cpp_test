@@ -8,6 +8,10 @@ void g_fun(){
     cout << "g_func" << endl;
 }
 
+void g_fun2(int a, int b){
+    cout << "g_func, a = " << a << ", b = " << b << endl;
+}
+
 class A {
 public:
     static void A_fun_static(){
@@ -44,6 +48,9 @@ int main(){
     A().init();
     A().init2();
 
+    std::function<void (int,int)> fp3 = std::bind(&g_func2, 100, std::placeholders::_1, std::placeholders::_2);
+    fp3(100,7);
+    
     return 0;
 }
 
