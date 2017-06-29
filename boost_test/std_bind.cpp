@@ -48,6 +48,7 @@ int main(){
     A().init();
     A().init2();
 
+    //std::function<void (int)> fp3 = std::bind(&g_fun2, 100, std::placeholders::_1);
     auto fp3 = std::bind(&g_fun2, 100, std::placeholders::_1);
     fp3(7);
 
