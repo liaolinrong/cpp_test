@@ -12,6 +12,10 @@ void g_fun2(int a, int b){
     cout << "g_func, a = " << a << ", b = " << b << endl;
 }
 
+void g_fun3(int a, int b, int c, int d){
+    cout << "g_func, a = " << a << ", b = " << b << ", c = " << c << ", d = " << d << endl;
+}
+
 class A {
 public:
     static void A_fun_static(){
@@ -51,6 +55,9 @@ int main(){
     //std::function<void (int)> fp3 = std::bind(&g_fun2, 100, std::placeholders::_1);
     auto fp3 = std::bind(&g_fun2, 100, std::placeholders::_1);
     fp3(7);
+
+    auto fp4 = std::bind(&g_fun3, 100, std::placeholders::_2, 200, std::placeholders::_1);
+    fp4(7,9);
 
     return 0;
 }
