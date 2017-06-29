@@ -48,8 +48,8 @@ int main(){
     A().init();
     A().init2();
 
-    std::function<void (int,int)> fp3 = std::bind(&g_fun2, 100, std::placeholders::_1, std::placeholders::_2);
-    fp3(100,7);
+    auto fp3 = std::bind(&g_fun2, 100, std::placeholders::_1);
+    fp3(7);
 
     return 0;
 }
